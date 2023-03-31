@@ -1,7 +1,5 @@
 <template>
-    
-
-  <v-container class="my-5">
+     <v-container class="my-5">
     <v-card v-for="file in fileList" :key="file.name" :class="`pa-3 project`" flat>
       <v-row>
         <v-col xs="1" sm="2" md="1">
@@ -31,37 +29,41 @@
       <v-divider />
     </v-card>
   </v-container>
-</template>
-
-     
-
+  </template>
   
   <script>
-  import { api } from "@/services/api";
+  import {api} from '../services/api'
   export default {
-  data() {
-    return {
-      fileList: {},
-      apiKey:""
-    };
-  },
-  mounted() {
-    api.getFiles()
+    props: {
+      id: {
+        type: String,
+        required: true
+      }
+    },
+    data() {
+      return {
+        playlist: {}, 
+        fileList:[]
+      };
+    },
+    mounted() {
+    api.getDetailedPlaylists(this.id)
       .then(response => {
-        this.fileList = response;
-        this.apiKey = localStorage.getItem("apiToken")
+        this.playlist = response[0];
+        console.log(response[0].name)
+        if(response[0].assets.length > 1){
+            for(const i of response.assets){
+            this.filesList.push(i)
+            console.log("assets" + i)
+        }
+        }
+        
       })
       .catch(error => {
         console.log(error);
       });
     
-  },
-  watch: {
-   
-  },
-
-  methods: {
-  }  
-};
-
+        
+    }
+  };
   </script>

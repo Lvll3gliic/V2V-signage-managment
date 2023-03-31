@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-app >
     <NavigationBar v-show="auth.is_authenticated"/>
-    <v-main>
+    <v-main >
       <router-view></router-view>
     </v-main>
   </v-app>

@@ -12,7 +12,9 @@
                 label="Failu pievienošana"
                 id="file" 
                 ref="file" 
-                @change="getType">
+                @change="getType"
+                color="secondary"
+                >
                 </v-file-input>
                 <v-select
                     v-model="selectedOption" 
@@ -22,7 +24,7 @@
                     item-value="name"
                     return-object
                     single-line
-                    color="teal accent-3"
+                    color="secondary"
                     prepend-icon="mdi-form-select"
                 >                    
                 </v-select>
@@ -31,13 +33,13 @@
                     name="duration"
                     prepend-icon="mdi-clock"
                     type="number"
-                    color="teal accent-3"
+                    color="secondary"
                     v-model="duration"
                     :disabled="isVideo"
                 />
     
                 <div class="text-center mb-5">
-                          <v-btn  color="teal accent-3" dark @click="postFile()">
+                          <v-btn  color="secondary" dark @click="postFile()">
                             pievienot
                           </v-btn>
                         </div>
@@ -62,10 +64,14 @@ export default {
     };
   },
   mounted() {
-  
-    api.getPlaylists().then((options) => {
-      this.playlistList = options;
-    });
+    api.getPlaylists()
+      .then(response => {
+        this.playlistList = response;
+        
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
   watch: {
     options() {

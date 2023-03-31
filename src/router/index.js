@@ -8,6 +8,8 @@ import CustomMadeScreen from '../views/customMadeScreen.vue'
 import addFileScreen from '../views/addFileScreen.vue'
 import MakePlaylistScreen from '../views/makePlaylistScreen.vue'
 import AssetsScreen from '../views/assetsScreen.vue'
+import playlistScreen from '../views/playlistScreen.vue'
+import playlistDetails from '../views/playlistDetailsScreen.vue'
 
 import { auth } from '@/stores/auth'
 const routes = [
@@ -39,7 +41,15 @@ const routes = [
     {
         path: '/assets', 
         component: AssetsScreen, 
-    }
+    },
+    {
+        path: '/playlists', 
+        component: playlistScreen, 
+    }, 
+    { path: '/playlist/:id', 
+    name: 'playlist-detail', 
+    component: playlistDetails, 
+    props: true }
 
   
 ]

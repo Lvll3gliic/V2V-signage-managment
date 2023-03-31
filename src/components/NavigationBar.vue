@@ -1,6 +1,6 @@
 <template>
     <nav>
-      <v-app-bar app color="primary" dark>
+      <v-app-bar app color="primary">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>
           <v-img :src="logo" width="90" height="90"></v-img>
@@ -41,6 +41,7 @@
           {  text: 'Gatavi template', route: '/custom-premade' },
           {  text: 'Izveidot Playlisti', route: '/add-playlist' },
           {  text: 'Pievienoto failu saraksts', route: '/assets' },
+          {  text: 'Atskaņošanas saraksti', route: '/playlists'}
           
         ], 
         logo: require('@/assets/v2v_logo.png')

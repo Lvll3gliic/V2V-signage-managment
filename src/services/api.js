@@ -96,6 +96,17 @@ export const api = reactive({
     }
 
   },
+  async getDetailedPlaylists (name){
+    try{
+      const apiToken = localStorage.getItem("apiToken")
+      const url = name ? `/playlists/${name}?token=${apiToken}` : `/playlists?token=${apiToken}`
+      const response = await apiBuilder.get(url)
+      const playlistDetails = name ? [response.data.data] : response.data.data
+      return playlistDetails
+    } catch(error){
+      console.error(error);
+    }
+  },
   async addToPlaylist(playlistName, assetsName, duration){
     const headers={
       assets: [
