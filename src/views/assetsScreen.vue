@@ -6,7 +6,9 @@
       <v-row>
         <v-col xs="1" sm="2" md="1">
           <div class="text-disabled">Bilde</div>
-          <div><v-img :src= "`https://lvll3gliic.pisignage.com${file.thumbnail}?token=${apiKey}`" width="64" height="36" /></div>
+          <div @click="openImage(file.name)" style="cursor: pointer">
+          <v-img :src= "`https://lvll3gliic.pisignage.com${file.thumbnail}?token=${apiKey}`" width="64" height="36" />
+          </div>
         </v-col>
         <v-col xs="10" md="4">
           <div class="text-disabled">Faila nosaukums</div>
@@ -22,7 +24,7 @@
         </v-col>
         <v-col xs="6" sm="4" md="2">
             <div class="text-center mb-5">
-                    <v-btn  color="teal accent-3" dark @click="postHtml()">
+                    <v-btn  color="teal accent-3" dark @click="deleteFile(file.name)">
                         Dzēst
                     </v-btn>
                 </div>
@@ -38,6 +40,7 @@
   
   <script>
   import { api } from "@/services/api";
+  import { getApiBaseUrl } from "@/services/api"
   export default {
   data() {
     return {
@@ -46,6 +49,7 @@
     };
   },
   mounted() {
+    getApiBaseUrl(), 
     api.getFiles()
       .then(response => {
         this.fileList = response;
@@ -61,6 +65,15 @@
   },
 
   methods: {
+    openImage(name) {
+      window.open(`https://lvll3gliic.pisignage.com/media/lvll3gliic/${name}?token=${this.apiKey}`, '_blank', 'height=600,width=800')
+    }, 
+    deleteFile(fileName){
+      api.deleteFile(fileName)
+      .then(response=>{
+        console.log(response)
+      })
+    }
   }  
 };
 

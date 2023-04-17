@@ -31,17 +31,23 @@
   
   <script>
 import { api } from "@/services/api";
-
+import { getApiBaseUrl } from "@/services/api"
 export default {
   data() {
     return {
-      name: "",
+      file_name: "",
     };
   },
   methods: {
     addPlaylist() {
-     api.addPlaylist(this.name)
+     api.addPlaylist(this.file_name)
     },
+    
+  },
+  mounted() {
+    getApiBaseUrl()
+  
+    
   },
 };
 </script>

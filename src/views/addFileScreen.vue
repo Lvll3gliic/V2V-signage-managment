@@ -51,7 +51,7 @@
   
   <script>
 import { api } from "@/services/api";
-
+import { getApiBaseUrl } from "@/services/api"
 
 export default {
   data() {
@@ -64,6 +64,7 @@ export default {
     };
   },
   mounted() {
+    getApiBaseUrl(), 
     api.getPlaylists()
       .then(response => {
         this.playlistList = response;

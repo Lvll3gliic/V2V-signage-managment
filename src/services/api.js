@@ -1,26 +1,27 @@
 import axios from 'axios';
 import {auth} from '../stores/auth'
 import { reactive } from 'vue'
-let apiBuilder = axios.create({
+
+
+export const apiBuilder = axios.create({
+  
 });
 
-export function setApiBaseUrl(link){
- 
-  var url = `https://lvll3gliic.pisignage.com/api`
-  console.log(link)
-  apiBuilder.defaults.baseURL=url
-  console.log(apiBuilder.defaults.baseURL)
-  localStorage.setItem("apiBaseUrl", url)
-
+export function setApiBaseUrl(link) {
+  const url = `https://${link}.pisignage.com/api`;
+  console.log(url);
+  apiBuilder.defaults.baseURL = url;
+  localStorage.setItem("apiBaseUrl", url);
+  
 }
-export function getApiBaseUrl(){
-  console.log("RELOAD")
-  const apiUrl = localStorage.getItem("apiBaseUrl")
-  if(apiUrl){
-    apiBuilder.defaults.baseURL = apiUrl
+
+export function getApiBaseUrl() {
+  const apiUrl = localStorage.getItem("apiBaseUrl");
+  console.log(apiUrl)
+  if (apiUrl) {
+    apiBuilder.defaults.baseURL = apiUrl;
   }
 }
-window.addEventListener("load", getApiBaseUrl)
 
 export const api = reactive({
 
@@ -146,30 +147,6 @@ export const api = reactive({
 
   }, 
 
-    
-    
-    
-  //  async uploadHtmlFiles(templateName, heading, text, playlist, duration,file_name ){
-      
-  //     const data = {
-  //       template: `${templateName}`,
-  //       heading: `${heading}`,
-  //       paragraph: `${text}`,
-       
-  //     };
-      
-      
-  //     axios
-  //       .post("http://localhost:3001/api/update-html-file", data)
-  //       .then((response) => {
-  //         console.log(response)
-  //         this.getUpdatedHtmlFile(templateName, heading, text, playlist, duration, file_name)
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-      
-  //   },
   async getUpdatedHtmlFile(templateName, heading, text, playlist, duration, file_name){
     try{
       axios.get(`http://localhost:3001/api/get-html-file/${templateName}&${heading}&${text}`)
@@ -186,19 +163,7 @@ export const api = reactive({
   },
 
 
-// async getUpdatedHtmlFiles(templateName, heading, text, playlist, duration, file_name){
-//   axios
-//         .get(`http://localhost:3001/api/get-html-file/${templateName}&${heading}&${text}`)
-//         .then((responseHtml) => {
-//           console.log("RESPONSE: " + responseHtml.data.html)
-//           const blob = new Blob([responseHtml.data.html], { type: "text/html" });
-//           const htmlFile = new File([blob], `${file_name}.html`, { type: "text/html" });
-//           this.uploadFile(htmlFile, playlist, duration);
-//         })
-//         .catch((error) => {
-//           console.error(error);
-//         });
-// },
+
 async addPlaylist(playlistName){
   const headers={
     file: playlistName
@@ -231,26 +196,17 @@ async controlTv(status){
   }
 },
 
-async controlTvs(status){
-  var apiToken = localStorage.getItem("apiToken");
-  const controlTv = await axios.get(`https://lvll3gliic.pisignage.com/api/players?token=${apiToken}`)
-  for(const i of controlTv.data.data.objects){
-    let config={
-      'status': status, 
-    }
-    const test = await axios.post(`https://lvll3gliic.pisignage.com/api/pitv/${i._id}?token=${apiToken}`, config)
-    console.log(test.data)
-  }
-
   
 
-},
+
 
 async getFiles(){
   try{
     var apiToken = localStorage.getItem("apiToken")
     const response = await apiBuilder.get(`/files?token=${apiToken}`)
     const filesList = []
+    console.log("assets")
+    console.log(response)
     for(const i of response.data.data.dbdata){
       filesList.push(i)
       console.log(i)
@@ -261,6 +217,31 @@ async getFiles(){
   }
 
 },
+
+async getFileDetails(fileName){
+  try{
+    var apiToken = localStorage.getItem("apiToken")
+    const response = await apiBuilder.get(`/files/${fileName}?token=${apiToken}`)
+    
+    return response.data.data
+  }catch(error){
+    console.error(error);
+  }
+}, 
+
+async deleteFile(fileName){
+  var apiToken = localStorage.getItem("apiToken") // replace with the actual file URL
+  axios.delete(`https://pisignage.com/api/files/${fileName}?token=${apiToken}`)
+
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.error('Error deleting file:', error);
+  });
+
+}
+
 })
 
 
