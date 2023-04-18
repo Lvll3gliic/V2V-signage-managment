@@ -240,6 +240,17 @@ async deleteFile(fileName){
     console.error('Error deleting file:', error);
   });
 
+}, 
+
+async getStats(){
+  try{
+    var apiToken = localStorage.getItem("apiToken")
+    const response = await apiBuilder.get(`/screens?token=${apiToken}`)
+    console.log(response)
+    return response
+  }catch(error){
+    console.error(error);
+  }
 }
 
 })

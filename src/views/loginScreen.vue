@@ -88,7 +88,8 @@ export default {
       errorMessage: "",
       zones: [
           { name: 'Testa vide', zone: 'lvll3gliic' },
-          { name: 'Skola', zone: 'skola' },
+          { name: 'Skola', zone: 'girtsvanags' },
+          
           ]
     };
   },

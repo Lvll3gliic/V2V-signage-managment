@@ -41,7 +41,8 @@
           {  text: 'Gatavi template', route: '/custom-premade' },
           {  text: 'Izveidot Playlisti', route: '/add-playlist' },
           {  text: 'Pievienoto failu saraksts', route: '/assets' },
-          {  text: 'Atskaņošanas saraksti', route: '/playlists'}
+          {  text: 'Atskaņošanas saraksti', route: '/playlists'},
+          {  text: 'Iestatījumi', route: '/settings'}
           
         ], 
         logo: require('@/assets/v2v_logo.png')

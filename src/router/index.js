@@ -10,6 +10,7 @@ import MakePlaylistScreen from '../views/makePlaylistScreen.vue'
 import AssetsScreen from '../views/assetsScreen.vue'
 import playlistScreen from '../views/playlistScreen.vue'
 import playlistDetails from '../views/playlistDetailsScreen.vue'
+import settingsScreen from '../views/settingsScreen.vue'
 
 import { auth } from '@/stores/auth'
 const routes = [
@@ -49,7 +50,12 @@ const routes = [
     { path: '/playlist/:id', 
     name: 'playlist-detail', 
     component: playlistDetails, 
-    props: true }
+    props: true 
+    },
+    {
+        path: '/settings', 
+        component: settingsScreen
+    } 
 
   
 ]
