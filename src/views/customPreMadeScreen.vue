@@ -9,12 +9,13 @@
            
             <v-form>
                 <v-select
+                    label="Templeita izvēle"
                     v-model="template"
                     :items="templates"
                     item-title="name"
                     item-value="name"
                     return-object
-                    single-line
+                    
                     color="teal accent-3"
                     prepend-icon="mdi-form-select"
                 >                    
@@ -45,12 +46,11 @@
                 />
                 <v-select
                     v-model="selectedOption" 
-                    label="Select"
+                    label="Atskaņošanas saraksts"
                     :items="playlistList"
                     item-title="name"
                     item-value="name"
                     return-object
-                    single-line
                     color="teal accent-3"
                     prepend-icon="mdi-form-select"
                 >                    
@@ -66,9 +66,14 @@
                 />
     
                 <div class="text-center mb-5">
-                    <v-btn  color="teal accent-3" dark @click="postHtml()">
+                    <v-btn  color="teal accent-3" dark class="mx-4" @click="postHtml()">
+                        Priekškatīt
+                    </v-btn>
+
+                    <v-btn  color="teal accent-3" dark class="mx-4" @click="postHtml()">
                         pievienot
                     </v-btn>
+                    
                 </div>
             </v-form>
         </v-col>

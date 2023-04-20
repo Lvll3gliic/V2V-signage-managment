@@ -109,23 +109,30 @@ export const api = reactive({
     }
   },
   async addToPlaylist(playlistName, assetsName, duration){
-    const headers={
+    const headers = {
+      'Content-Type': 'application/json',
+      'duration': duration
+    };
+    
+    const data = {
       assets: [
         {
-        'filename' : `${assetsName}`,
-        'selected' : 'true', 
-        'duration': `${duration}`,
-      },
+          filename: `${assetsName}`,
+          selected: 'true', 
+          duration: `${duration}`,
+        },
       ],
-    }
-    try{
-      var apiToken = localStorage.getItem("apiToken")
-      const playlistInfo = await apiBuilder.get(`/playlists/${playlistName}?token=${apiToken}`)
-      for(const i of playlistInfo.data.data.assets){
-        headers.assets.push({'filename': i.filename, 'selected': i.selected, 'duration': i.duration})
+    };
+    
+    try {
+      const apiToken = localStorage.getItem('apiToken');
+      const playlistInfo = await apiBuilder.get(`/playlists/${playlistName}?token=${apiToken}`);
+      for (const i of playlistInfo.data.data.assets) {
+        data.assets.push({ filename: i.filename, selected: i.selected, duration: i.duration });
       }
-      await axios.post(`https://lvll3gliic.pisignage.com/api/playlists/${playlistName}?token=${apiToken}`,headers)
-    }catch(error){
+      const response = await axios.post(`https://lvll3gliic.pisignage.com/api/playlists/${playlistName}?token=${apiToken}`, data, { headers });
+      console.log(response);
+    } catch (error) {
       console.error(error);
     }
   },
@@ -178,24 +185,37 @@ async addPlaylist(playlistName){
   }
 },
 
-async controlTv(status){
+// async controlTv(status){
 
+//   try{
+//     var apiToken = localStorage.getItem("apiToken")
+//     const response = await axios.get(`https://lvll3gliic.pisignage.com/api/players?token=${apiToken}`)
+//     for(const i of response.data.data.objects){
+//       let headers={
+//         'status': status, 
+//       }
+//       const test = await axios.post(`https://lvll3gliic.pisignage.com/api/pitv/${i._id}?token=${apiToken}`, headers)
+//       console.log(test)
+//     }
+//   }catch(error){
+//     console.error(error);
+    
+//   }
+// },
+async controlTv(status, id){
   try{
-    var apiToken = localStorage.getItem("apiToken")
-    const response = await axios.get(`https://lvll3gliic.pisignage.com/api/players?token=${apiToken}`)
-    for(const i of response.data.data.objects){
-      let headers={
-        'status': status, 
-      }
-      const test = await axios.post(`https://lvll3gliic.pisignage.com/api/pitv/${i._id}?token=${apiToken}`, headers)
-      console.log(test.data)
+    let headers={
+            'status': status, 
     }
+    var apiToken = localStorage.getItem("apiToken")
+    const test = await axios.post(`https://lvll3gliic.pisignage.com/api/pitv/${id}?token=${apiToken}`, headers)
+    console.log(test)
+      
   }catch(error){
     console.error(error);
-    
+        
   }
 },
-
   
 
 
@@ -242,17 +262,34 @@ async deleteFile(fileName){
 
 }, 
 
-async getStats(){
+async getStatistics(){
   try{
     var apiToken = localStorage.getItem("apiToken")
     const response = await apiBuilder.get(`/screens?token=${apiToken}`)
     console.log(response)
-    return response
+    return response.data.data.objects
   }catch(error){
     console.error(error);
   }
-}
-
+}, 
+async deletePlaylist(playlistName){
+ 
+  const data = {
+    playlist: playlistName,
+    assets: [
+      {
+      },
+    ],
+  };
+  
+  try {
+    const apiToken = localStorage.getItem('apiToken');
+    const response = await apiBuilder.post(`/playlistfiles?token=${apiToken}`, data);
+    console.log(response)
+  } catch (error) {
+    console.error(error);
+  }
+},
 })
 
 

@@ -1,7 +1,16 @@
 <template>
-    
+     <v-container class="mt-10"  fluid>
+      <v-row align="center" justify="center">
+        <v-col cols="11" md="7"> 
+            <div class="text-center mb-15">
+                <h1>Pievienoto failu saraksts</h1>
+                <p>desc</p>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
 
-  <v-container class="my-5">
+  <v-container class="mb-5">
     <v-card v-for="file in fileList" :key="file.name" :class="`pa-3 project`" flat>
       <v-row>
         <v-col xs="1" sm="2" md="1">

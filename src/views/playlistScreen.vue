@@ -1,7 +1,16 @@
 <template>
-    
+     <v-container class="mt-10"  fluid>
+      <v-row align="center" justify="center">
+        <v-col cols="11" md="7"> 
+            <div class="text-center mb-15">
+                <h1>Atskaņošanas saraksti </h1>
+                <p>desc</p>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
 
-    <v-container class="my-5">
+    <v-container class="mb-5">
       <v-card v-for="playlist in playlists" :key="playlist.name" :class="`pa-3 project`" flat @click="goToPlaylistDetail(playlist)">
         <v-row>
           <v-col xs="10" md="4">
@@ -16,7 +25,7 @@
             <div class="text-disabled">Sākuma-beigu datumi</div>
             <div>{{ playlist.schedule }}</div>
           </v-col>
-        
+       
         </v-row>
         <v-divider />
       </v-card>
@@ -57,8 +66,12 @@
     methods: {
         goToPlaylistDetail(playlist) {
             this.$router.push({ name: 'playlist-detail', params: { id:playlist.name  } })
+        },
+        deletePlaylist(playlistName){
+          api.deletePlaylist(playlistName)
         }
-    }  
+    }, 
+    
   };
   
     </script>
