@@ -113,8 +113,8 @@ import { getApiBaseUrl } from "@/services/api"
     openImage(path) {
       window.open(`https://lvll3gliic.pisignage.com${path}?token=${this.apiKey}`, '_blank', 'height=600,width=800')
     }, 
-    deletePlaylist(playlistName){
-          api.deletePlaylist(playlistName)
+    deletePlaylist(){
+          api.getGroups(); 
         }
   },
   async mounted() {

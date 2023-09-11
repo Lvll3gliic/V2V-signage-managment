@@ -43,6 +43,11 @@
                             pievienot
                           </v-btn>
                         </div>
+                        <div class="text-center mb-5">
+                          <v-btn  color="secondary" dark @click="deploy()">
+                            deploy
+                          </v-btn>
+                        </div>
             </v-form>
         </v-col>
       </v-row>
@@ -88,6 +93,9 @@ export default {
     },
     getPlaylists() {
       api.getPlaylists();
+    },
+    deploy(){
+      api.deploy(); 
     },
     getType(event){
      const file = event.target.files[0]

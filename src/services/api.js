@@ -74,9 +74,45 @@ export const api = reactive({
         "size": file.size,
       }]
     }
+    console.log(file.name + file.type + file.size);
     try{
       var apiToken = localStorage.getItem("apiToken")
       const response = await apiBuilder.post(`/postupload?token=${apiToken}`, headers); 
+      //this.deploy();
+      console.log(response)
+    }catch(error){
+      console.error(error);
+      
+    }
+  },
+
+  async deploy(){
+    const deployedAssets = []; 
+    const assets = []; 
+    try{
+      const header={
+        'deploy': true,
+        'playlists':[{
+          'name': 'default', 
+          
+        }],
+        
+          deployedAssets
+          , assets
+        
+
+
+         
+      }
+      var apiToken = localStorage.getItem("apiToken") 
+      const playlistInfo = await apiBuilder.get(`/playlists/default?token=${apiToken}`);
+      for (const i of playlistInfo.data.data.assets) { 
+        deployedAssets.push(i.filename);
+        assets.push(i.filename);
+      }
+      
+      const response = await apiBuilder.post(`/groups/636822bc2a6df73c17f1e237?token=${apiToken}`, header); 
+      console.log('pipec')
       console.log(response)
     }catch(error){
       console.error(error);
@@ -123,15 +159,25 @@ export const api = reactive({
         },
       ],
     };
+    const assets = []
+      
+        
+        
+    
     
     try {
       const apiToken = localStorage.getItem('apiToken');
       const playlistInfo = await apiBuilder.get(`/playlists/${playlistName}?token=${apiToken}`);
       for (const i of playlistInfo.data.data.assets) {
         data.assets.push({ filename: i.filename, selected: i.selected, duration: i.duration });
+        console.log(i.filename); 
+        assets.push(i.filename); 
       }
       const response = await axios.post(`https://lvll3gliic.pisignage.com/api/playlists/${playlistName}?token=${apiToken}`, data, { headers });
       console.log(response);
+      const update = await axios.post(`https://lvll3gliic.pisignage.com/api/playlistfiles?token=${apiToken}`, assets, { headers });
+      // this.deploy(assets);
+      console.log(update)
     } catch (error) {
       console.error(error);
     }
