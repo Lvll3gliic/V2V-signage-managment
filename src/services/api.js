@@ -166,6 +166,13 @@ export const api = reactive({
         { headers }
       );
       console.log(response);
+      const update = await axios.post(
+        `https://lvll3gliic.pisignage.com/api/playlistfiles?token=${apiToken}`,
+        assets,
+        { headers }
+      );
+      // this.deploy(assets);
+      console.log(update);
     } catch (error) {
       console.error(error);
     }
