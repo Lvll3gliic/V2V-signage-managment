@@ -5,7 +5,7 @@
         <div class="text-center mb-15">
           <h1>Pievienoto failu saraksts</h1>
           <p>
-            šeit atspoguļojas visi pievienoti faili. Kā arī šeit ir iespēja
+            šeit tiek atspoguļoti visi pievienoti faili. Kā arī šeit ir iespēja
             izdzēst failus, kas vairs nav nepieciešami
           </p>
         </div>
