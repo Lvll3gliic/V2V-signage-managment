@@ -53,6 +53,10 @@
               pievienot
             </v-btn>
           </div>
+          
+          <v-alert v-model="successAlert" type="success" dismissible>
+            Fails veiksmīgi pievienots!
+          </v-alert>
         </v-form>
       </v-col>
     </v-row>
@@ -71,6 +75,7 @@ export default {
       playlistList: [],
       duration: "",
       isVideo: false,
+      successAlert: false,
     };
   },
   mounted() {
@@ -97,7 +102,17 @@ export default {
     postFile() {
       const img = this.$refs.file.files[0];
       console.log(this.selectedOption);
-      api.uploadFile(img, this.selectedOption, this.duration);
+      api.uploadFile(img, this.selectedOption, this.duration)
+        .then(() => {
+          this.successAlert = true;
+          setTimeout(() => {
+            this.successAlert = false;
+          }, 5000); 
+        })
+        .catch((error) => {
+          console.error("Failu neizdevās pievienot. Kļūda:", error);
+          
+        });
     },
     getPlaylists() {
       api.getPlaylists();

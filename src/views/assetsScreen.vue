@@ -45,7 +45,7 @@
         </v-col>
         <v-col xs="6" sm="4" md="2">
           <div class="text-center mb-5">
-            <v-btn color="teal accent-3" dark @click="deleteFile(file.name)">
+            <v-btn color="error" dark @click="deleteFile(file.name)">
               Dzēst
             </v-btn>
           </div>
@@ -67,20 +67,20 @@ export default {
     };
   },
   mounted() {
-    getApiBaseUrl(),
-      api
-        .getFiles()
-        .then((response) => {
-          this.fileList = response;
-          this.apiKey = localStorage.getItem("apiToken");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    this.loadData();
   },
   watch: {},
 
   methods: {
+    loadData() {
+      getApiBaseUrl();
+      api.getFiles().then((response) => {
+        this.fileList = response;
+        this.apiKey = localStorage.getItem("apiToken");
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
     openImage(name) {
       window.open(
         `https://lvll3gliic.pisignage.com/media/lvll3gliic/${name}?token=${this.apiKey}`,
@@ -91,6 +91,8 @@ export default {
     deleteFile(fileName) {
       api.deleteFile(fileName).then((response) => {
         console.log(response);
+        // Reload data after successful deletion
+        this.loadData();
       });
     },
   },

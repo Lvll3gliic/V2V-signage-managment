@@ -4,13 +4,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import loginScreen from '../views/loginScreen.vue'
 import mainScreen from '../views/mainScreen.vue'
 import CustomPreMadeScreen from '../views/customPreMadeScreen.vue'
-import CustomMadeScreen from '../views/customMadeScreen.vue'
 import addFileScreen from '../views/addFileScreen.vue'
 import MakePlaylistScreen from '../views/makePlaylistScreen.vue'
 import AssetsScreen from '../views/assetsScreen.vue'
 import playlistScreen from '../views/playlistScreen.vue'
 import playlistDetails from '../views/playlistDetailsScreen.vue'
 import settingsScreen from '../views/settingsScreen.vue'
+import CustomMadeTemplates from '../views/CustomMadeTemplates.vue'
 
 import { auth } from '@/stores/auth'
 const routes = [
@@ -29,7 +29,7 @@ const routes = [
     },
     {
         path: '/custom-made',
-        component: CustomMadeScreen,
+        component: CustomMadeTemplates,
     },
     {
         path: '/custom-premade',

@@ -63,7 +63,7 @@ export const api = reactive({
       console.error(error);
     }
   },
-  async deployPlaylist(playlist, fileName) {
+  async deployPlaylistWithFiles(playlist, fileName) {
     const headers = {
       deploy: true,
       playlists: [
@@ -72,6 +72,26 @@ export const api = reactive({
         },
       ],
       assets: [fileName],
+    };
+    try {
+      var apiToken = localStorage.getItem("apiToken");
+      const response = await apiBuilder.post(
+        `/groups/636822bc2a6df73c17f1e237?token=${apiToken}`,
+        headers
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async deployPlaylist(playlist) {
+    const headers = {
+      deploy: true,
+      playlists: [
+        {
+          name: playlist,
+        },
+      ],
     };
     try {
       var apiToken = localStorage.getItem("apiToken");
@@ -171,37 +191,27 @@ export const api = reactive({
     }
   },
 
-  async uploadHtmlFile(
-    templateName,
-    heading,
-    text,
-    playlist,
-    duration,
-    file_name
-  ) {
+ 
+  async uploadHtmlFile(templateName, heading, text, playlist, duration, file_name) {
     const headers = {
-      template: `${templateName}`,
-      heading: `${heading}`,
-      paragraph: `${text}`,
+        title: `${heading}`,
+        headline: `${text}`,
+        paragraph: `${playlist}`,
     };
+
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/update-html-file",
-        headers
-      );
-      this.getUpdatedHtmlFile(
-        templateName,
-        heading,
-        text,
-        playlist,
-        duration,
-        file_name
-      );
-      console.log(response);
+        const response = await axios.post(
+            `http://localhost:3000/update-template/${templateName}`,
+            headers
+        );
+        console.log(response.data);
+
+        // Assuming you want to perform some action after uploading the HTML file
+        this.getUpdatedHtmlFile(templateName, heading, text, playlist, duration, file_name);
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-  },
+},
 
   async getUpdatedHtmlFile(
     templateName,
@@ -308,8 +318,8 @@ export const api = reactive({
 
   async deleteFile(fileName) {
     var apiToken = localStorage.getItem("apiToken"); // replace with the actual file URL
-    axios
-      .delete(`https://pisignage.com/api/files/${fileName}?token=${apiToken}`)
+    
+     await apiBuilder.delete(`/files/${fileName}?token=${apiToken}`)
 
       .then((response) => {
         console.log(response);

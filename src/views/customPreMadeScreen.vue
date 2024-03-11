@@ -95,7 +95,7 @@ export default {
       text: "",
       template: "",
       file_name: "",
-      templates:["Template1", "Template2", "Template3"]
+      templates:["template_1", "Template2", "Template3"]
     };
   },
 

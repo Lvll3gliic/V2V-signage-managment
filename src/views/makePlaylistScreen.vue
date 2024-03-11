@@ -6,11 +6,13 @@
           <h1>Izveido jaunu atskaņošanas sarakstu</h1>
           <p>Šajā ekranā ir iespēja pievienot jaunu atskaņošanas sarakstu.</p>
           <p>
-            Ievadi atsksaņošanas saraksta nosaukumu un spied pogu "pievienot".
+            Ievadi atskaņošanas saraksta nosaukumu un spied pogu "pievienot".
             Tādā veidā tiks izveidots jauns atskaņošanas saraksts.
           </p>
         </div>
-
+        <v-alert v-model="successAlert" type="success" dismissible class="mb-5">
+          Atskaņošanas saraksts "{{ addedPlaylistName }}" veiksmīgi pievienots.
+        </v-alert>
         <v-form>
           <v-text-field
             label="Atskaņošanas saraksta nosaukums"
@@ -35,15 +37,28 @@
 <script>
 import { api } from "@/services/api";
 import { getApiBaseUrl } from "@/services/api";
+
 export default {
   data() {
     return {
       file_name: "",
+      successAlert: false,
+      addedPlaylistName: ""
     };
   },
   methods: {
-    addPlaylist() {
-      api.addPlaylist(this.file_name);
+    async addPlaylist() {
+      try {
+        await api.addPlaylist(this.file_name);
+        // Set added playlist name for success alert
+        this.addedPlaylistName = this.file_name;
+        // Show success alert
+        this.successAlert = true;
+        // Clear input field after successful addition
+        this.file_name = "";
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
   mounted() {

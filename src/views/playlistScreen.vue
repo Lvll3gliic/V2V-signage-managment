@@ -37,12 +37,16 @@
           <div class="text-disabled">Sākuma-beigu datumi</div>
           <div>{{ playlist.schedule }}</div>
         </v-col>
+        <v-col xs="6" sm="4" md="2">
+          <div class="text-center mb-5">
+          <v-btn @click.stop="deletePlaylist(playlist.name)" color="error" dark>Dzēst</v-btn>
+          </div>
+        </v-col>
       </v-row>
       <v-divider />
     </v-card>
   </v-container>
 </template>
-
 <script>
 import { api } from "@/services/api";
 import { getApiBaseUrl } from "@/services/api";
@@ -54,7 +58,11 @@ export default {
     };
   },
   mounted() {
-    getApiBaseUrl(),
+    this.fetchPlaylists();
+  },
+  methods: {
+    fetchPlaylists() {
+      getApiBaseUrl(),
       api
         .getDetailedPlaylists()
         .then((response) => {
@@ -65,18 +73,21 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-  },
-  watch: {},
-
-  methods: {
+    },
     goToPlaylistDetail(playlist) {
       this.$router.push({
         name: "playlist-detail",
         params: { id: playlist.name },
       });
     },
-    deletePlaylist(playlistName) {
-      api.deletePlaylist(playlistName);
+    async deletePlaylist(playlistName) {
+      try {
+        await api.deleteFile(`__${playlistName}.json`);
+        // Reload playlists data after successful deletion
+        this.fetchPlaylists();
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

@@ -2,29 +2,37 @@
   <v-container class="mt-10" fluid>
     <v-row align="center" justify="center">
       <v-col cols="11" md="7">
-        <div class="text-center mb-15">
+        <div class="text-center mb-10">
           <h1>{{ this.id }}</h1>
           <h2>Failu saraksts</h2>
           <p>
             Šeit tiek atspoguļoti šajā ({{ this.id }}) atskaņošanas sarakstā
             pievienotie faili
           </p>
-          <v-col xs="6" sm="4" md="2">
-            <div class="text-center mb-5">
-              <v-btn
-                color="teal accent-3"
-                dark
-                @click="deletePlaylist(this.id)"
-              >
-                Dzēst
-              </v-btn>
-            </div>
-          </v-col>
+          
+            
+
         </div>
       </v-col>
+      
+    </v-row>
+    <v-row xs="8" sm="6" md="4" align="center" justify="center" >
+      <div class="text-center mb-10">
+        <div class="d-flex justify-center mx-auto">
+         
+          <v-btn
+            color="teal accent-3"
+            dark
+            @click="deploy(this.id)"
+          >
+            Izvietot
+          </v-btn>
+        </div>
+      </div>
     </v-row>
   </v-container>
-  <v-container class="my-5">
+  <div>
+  <v-container class="my-5" v-if="fileList.length > 0">
     <v-card
       v-for="(file, index) in fileList"
       :key="file.name"
@@ -37,7 +45,7 @@
           <div @click="openImage(file.path)" style="cursor: pointer">
             <template v-if="file?.dbdata?.thumbnail">
               <v-img
-                :src="`https://lvll3gliic.pisignage.com${file.dbdata.thumbnail}?token=${apiKey}`"
+                :src="`https://girtsvanags.pisignage.com${file.dbdata.thumbnail}?token=${apiKey}`"
                 width="64"
                 height="36"
               />
@@ -69,6 +77,10 @@
       <v-divider />
     </v-card>
   </v-container>
+<div v-else>
+  <p class="text-center">Atskaņošanas sarakstā nav pievienotu failu</p>
+  </div>
+  </div>
 </template>
 
 <script>
@@ -121,14 +133,17 @@ export default {
     },
     openImage(path) {
       window.open(
-        `https://lvll3gliic.pisignage.com${path}?token=${this.apiKey}`,
+        `https://girtsvanags.pisignage.com${path}?token=${this.apiKey}`,
         "_blank",
         "height=600,width=800"
       );
     },
-    deletePlaylist(playlistName) {
-      api.deletePlaylist(playlistName);
+    deletePlaylist(playlistName){
+      api.deleteFile(`__${playlistName}.json`)
     },
+    deploy(playlistName){
+      api.deployPlaylist(playlistName);
+    }
   },
   async mounted() {
     getApiBaseUrl(), await this.getFileDetails();
